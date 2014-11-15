@@ -7,7 +7,8 @@ function status(text){
 status("Initializing variables...");
 
 var cells = document.getElementsByClassName('cell');
-
+var turn = 1;
+players = 0;
 var p1extinct = false;
 var p2extinct = false;
 var p3extinct = false;
@@ -16,7 +17,7 @@ var p4extinct = false;
 status("Initializing colors...");
 
 //colors
-var none = "#EEE";
+var none = "rgb(238, 238, 238)";
 var blue = "rgb(187, 187, 255)";
 var red = "rgb(255, 187, 187)";
 var green = "rgb(187, 255, 187)";
@@ -35,7 +36,8 @@ function hideHTP(e){
 
 status("Getting game stuff ready...");
 
-function startGame(players){
+function startGame(prs){
+    players = prs;
     status('Starting game with ' + players + ' players...');
     document.getElementById('menu').classList.add('hidden');
     
@@ -68,21 +70,36 @@ function startGame(players){
         document.getElementsByClassName('r-9 c-3')[0].style.background = green;
     }
     else{p4extinct = true;}
-    
-    status("Done.");
+    turn = 1;
+    status("Player 1's turn.");
 }
 
 status("Making things pretty...");
 
 function colorMe()
 {
-    if(this.style.background != blue)
+    if(this.style.background != none)
     {
-        this.style.background = blue;
+        status('Please choose an empty cell.');
     }
-    else
-    {
-        this.style.background = none;
+    else{
+        switch(turn){
+            case 1:
+                this.style.background = blue;
+                break;
+            case 2:
+                this.style.background = red;
+                break;
+            case 3:
+                this.style.background = yellow;
+                break;
+            case 4:
+                this.style.background = green;
+                break;
+        }
+        turn++
+        status('Player ' + turn + "'s turn.");
+        //if(turn>players){ //begin iteration
     }
 }
 
@@ -98,9 +115,9 @@ status("Reticulating splines...");
 for(i=0;i < cells.length;i++)
 {
     cells[i].onclick = colorMe;
+    cells[i].style.background = none;
 }
 
 // remove preloading thing when all is done
 document.getElementsByTagName('body')[0].removeChild(document.getElementsByTagName('div')[0]);
-
 status("Done.");
