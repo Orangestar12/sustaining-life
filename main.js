@@ -14,6 +14,11 @@ var p2extinct = false;
 var p3extinct = false;
 var p4extinct = false;
 
+var blues = 0;
+var reds = 0;
+var yellows = 0;
+var greens = 0;
+
 status("Initializing colors...");
 
 //colors
@@ -74,7 +79,40 @@ function startGame(prs){
     status("Player 1's turn.");
 }
 
-status("Making things pretty...");
+function getCell(x,y){return document.getElementsByClassName("r-"+x+" c-"+y)[0]}
+function evalColor(elem){
+    switch(elem.style.background){
+        case blue:
+            blues++;
+            break;
+        case red:
+            reds++;
+            break;
+        case yellow:
+            yellows++;
+            break;
+        case green:
+            greens++;
+            break;
+    }
+}
+function maxArray(array){
+    var largest = Math.max.apply( Math, array );
+    switch(largest){
+        case blues:
+            return blue;
+            break;
+        case reds:
+            return red;
+            break;
+        case yellows:
+            return yellow;
+            break;
+        case greens:
+            return green;
+            break;
+    }
+}; //thanks John Resig http://ejohn.org/blog/fast-javascript-maxmin/
 
 function colorMe()
 {
@@ -98,8 +136,64 @@ function colorMe()
                 break;
         }
         turn++
+        //special cases if player is extinct
+        switch(turn){
+            case 2:
+                if(p2extinct == true)
+                    turn++
+                break;
+            case 3:
+                if(p3extinct == true)
+                    turn++
+                break;
+            case 4:
+                if(p4extinct == true)
+                    turn++
+                break;
+        }
+
         status('Player ' + turn + "'s turn.");
-        //if(turn>players){ //begin iteration
+        if(turn>players){ //begin iteration
+            var neighbors = 0;
+            status('Evaluating cells...');
+            for(x=1;x<=10;x++){
+                for(y=1;y<=10;y++){
+                    for(xx = -1; xx <= 1; xx++)
+                        for(yy = -1; yy <= 1; yy++){
+                            if(x+xx != 0 && y+yy != 0 && x+xx != 11 && y+yy != 11){
+                                if(getCell(x+xx,y+yy).style.background != none){
+                                    neighbors++;
+                                    evalColor(getCell(x+xx,y+yy));
+                                }
+                            }
+//                            var gah = y+yy;
+//                            alert(x+xx+' '+ gah);
+                        }
+                    if(getCell(x,y).style.background != none){ //evaluate lives or dies
+                        if(neighbors<2){
+                            getCell(x,y).setAttribute("data-updateTo", none); //death by underpop
+                        }
+                        else if(neighbors > 3){
+                            getCell(x,y).setAttribute("data-updateTo", none); //death by overpop
+                        }
+                    }
+                    else if(neighbors == 3){ //evaluate reproduction
+                        getCell(x,y).setAttribute("data-updateTo", maxArray([blues,reds,yellows,greens]));
+                    }
+                    neighbors = 0;
+                    blues = 0;
+                    reds = 0;
+                    yellows = 0;
+                    greens = 0;
+                    for(x=1;x<=10;x++){
+                        for(y=1;y<=10;y++){
+                            if(getCell(x,y).getAttribute("data-updateTo") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateTo");}
+                            getCell(x,y).setAttribute("data-updateTo", "stay");
+                        }
+                    }
+                }
+            }
+        }//end evaluation
     }
 }
 
@@ -116,6 +210,7 @@ for(i=0;i < cells.length;i++)
 {
     cells[i].onclick = colorMe;
     cells[i].style.background = none;
+    cells[i].setAttribute("data-updateTo", "stay");
 }
 
 // remove preloading thing when all is done
