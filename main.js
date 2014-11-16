@@ -158,26 +158,29 @@ function colorMe()
             status('Evaluating cells...');
             for(x=1;x<=10;x++){
                 for(y=1;y<=10;y++){
+                    //console.log('checking cell '+x+', '+y);
                     for(xx = -1; xx <= 1; xx++)
                         for(yy = -1; yy <= 1; yy++){
-                            if(x+xx != 0 && y+yy != 0 && x+xx != 11 && y+yy != 11){
+                            if(x+xx != 0 && y+yy != 0 && x+xx != 11 && y+yy != 11 && !(xx == 0 && yy == 0)){
                                 if(getCell(x+xx,y+yy).style.background != none){
+                                    //console.log('found neighbor at '+xx+', '+yy);
                                     neighbors++;
                                     evalColor(getCell(x+xx,y+yy));
                                 }
                             }
-                            
                         }
+                    //console.log('totaled up to '+neighbors+' neighbors.');
+                    //debugger;
                     if(getCell(x,y).style.background != none){ //evaluate lives or dies
                         if(neighbors<2){
-                            getCell(x,y).setAttribute("data-updateTo", none); //death by underpop
+                            getCell(x,y).setAttribute("data-updateto", none); //death by underpop
                         }
                         else if(neighbors > 3){
-                            getCell(x,y).setAttribute("data-updateTo", none); //death by overpop
+                            getCell(x,y).setAttribute("data-updateto", none); //death by overpop
                         }
                     }
                     else if(neighbors == 3){ //evaluate reproduction
-                        getCell(x,y).setAttribute("data-updateTo", maxArray([blues,reds,yellows,greens]));
+                        getCell(x,y).setAttribute("data-updateto", maxArray([blues,reds,yellows,greens]));
                     }
                     neighbors = 0;
                     blues = 0;
@@ -188,8 +191,8 @@ function colorMe()
             }
             for(x=1;x<=10;x++){
                 for(y=1;y<=10;y++){
-                    if(getCell(x,y).getAttribute("data-updateTo") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateTo");}
-                    getCell(x,y).setAttribute("data-updateTo", "stay");
+                    if(getCell(x,y).getAttribute("data-updateto") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateto");}
+                    getCell(x,y).setAttribute("data-updateto", "stay");
                 }
             }
             turn=1 ;
@@ -211,7 +214,7 @@ for(i=0;i < cells.length;i++)
 {
     cells[i].onclick = colorMe;
     cells[i].style.background = none;
-    cells[i].setAttribute("data-updateTo", "stay");
+    cells[i].setAttribute("data-updateto", "stay");
 }
 
 // remove preloading thing when all is done
