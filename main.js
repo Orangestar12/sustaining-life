@@ -166,8 +166,7 @@ function colorMe()
                                     evalColor(getCell(x+xx,y+yy));
                                 }
                             }
-//                            var gah = y+yy;
-//                            alert(x+xx+' '+ gah);
+                            
                         }
                     if(getCell(x,y).style.background != none){ //evaluate lives or dies
                         if(neighbors<2){
@@ -185,14 +184,16 @@ function colorMe()
                     reds = 0;
                     yellows = 0;
                     greens = 0;
-                    for(x=1;x<=10;x++){
-                        for(y=1;y<=10;y++){
-                            if(getCell(x,y).getAttribute("data-updateTo") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateTo");}
-                            getCell(x,y).setAttribute("data-updateTo", "stay");
-                        }
-                    }
                 }
             }
+            for(x=1;x<=10;x++){
+                for(y=1;y<=10;y++){
+                    if(getCell(x,y).getAttribute("data-updateTo") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateTo");}
+                    getCell(x,y).setAttribute("data-updateTo", "stay");
+                }
+            }
+            turn=1 ;
+            status("Player 1's turn");
         }//end evaluation
     }
 }
