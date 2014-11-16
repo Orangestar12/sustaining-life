@@ -163,5 +163,18 @@
 <!-- status -->
 <div id="status" class="boxes">The JavaScript hasn't started! Something's wrong!</div>
 </body>
+<script>
+function status(text){
+    document.getElementById('status').innerHTML = text;
+    console.log(text);
+};
+</script>
+<script src="./vars.js"></script>
+<script src="./init.js"></script>
 <script src="./main.js"></script>
+<script src="./end.js"></script>
+<script>
+document.getElementsByTagName('body')[0].removeChild(document.getElementsByTagName('div')[0]);
+status("Done.");
+</script>
 </html>
