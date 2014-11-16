@@ -46,6 +46,19 @@ function startGame(prs){
     status('Starting game with ' + players + ' players...');
     document.getElementById('menu').classList.add('hidden');
     
+    status("Resetting necessary variables...")
+    p1extinct = false;
+    p2extinct = false;
+    p3extinct = false;
+    p4extinct = false;
+    
+    status("Resetting all cells...")
+    for(i=0;i < cells.length;i++)
+    {
+        cells[i].style.background = none;
+        cells[i].setAttribute("data-updateto", "stay");
+    }
+    
     status("Populating Player 1's cells.");
     document.getElementsByClassName('r-2 c-2')[0].style.background = blue;
     document.getElementsByClassName('r-2 c-3')[0].style.background = blue;
@@ -76,7 +89,7 @@ function startGame(prs){
     }
     else{p4extinct = true;}
     turn = 1;
-    status("Player 1's turn.");
+    getTurn();
 }
 
 function getCell(x,y){return document.getElementsByClassName("r-"+x+" c-"+y)[0]}
@@ -113,6 +126,43 @@ function maxArray(array){
             break;
     }
 }; //thanks John Resig http://ejohn.org/blog/fast-javascript-maxmin/
+function extinct(player){
+    switch(player){
+        case 1:
+            if(p1extinct==true)
+                return true;
+            break;
+        case 2:
+            if(p2extinct==true)
+                return true;
+            break;
+        case 3:
+            if(p3extinct==true)
+                return true;
+            break;
+        case 4:
+            if(p4extinct==true)
+                return true;
+            break;
+    }
+    return false;
+}
+function getTurn(){
+        switch(turn){
+            case 1:
+                status("Blue's turn.");
+                break;
+            case 2:
+                status("Red's turn.");
+                break;
+            case 3:
+                status("Yellow's turn.");
+                break;
+            case 4:
+                status("Green's turn.");
+                break;
+        }
+}
 
 function colorMe()
 {
@@ -136,23 +186,10 @@ function colorMe()
                 break;
         }
         turn++
-        //special cases if player is extinct
-        switch(turn){
-            case 2:
-                if(p2extinct == true)
-                    turn++
-                break;
-            case 3:
-                if(p3extinct == true)
-                    turn++
-                break;
-            case 4:
-                if(p4extinct == true)
-                    turn++
-                break;
-        }
-
-        status('Player ' + turn + "'s turn.");
+        //skip extinct players
+        while(extinct(turn))
+            turn++
+        getTurn();
         if(turn>players){ //begin iteration
             var neighbors = 0;
             status('Evaluating cells...');
@@ -193,10 +230,46 @@ function colorMe()
                 for(y=1;y<=10;y++){
                     if(getCell(x,y).getAttribute("data-updateto") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateto");}
                     getCell(x,y).setAttribute("data-updateto", "stay");
+                    evalColor(getCell(x,y));
                 }
             }
-            turn=1 ;
-            status("Player 1's turn");
+            //check for extinction
+            if(blues == 0 && p1extinct == false){p1extinct=true;status("Blue has been eliminated!")}
+            if(reds == 0 && p2extinct == false){p2extinct=true;status("Red has been eliminated!")}
+            if(yellows == 0 && p3extinct == false){p3extinct=true;status("Yellow has been eliminated!")}
+            if(greens == 0 && p4extinct == false){p4extinct=true;status("Green has been eliminated!")}
+            blues = 0;
+            reds = 0;
+            yellows = 0;
+            greens = 0;
+            turn=1;
+            //skip extinct players
+            while(extinct(turn))
+                turn++
+            getTurn();
+            //check for win condition
+            if(p1extinct==true && p2extinct==true && p3extinct==true && p4extinct==true){ //tie
+                status("All cells are extinct! It's a tie!");
+                document.getElementById('menu').classList.remove('hidden');
+            }
+            else{
+                if(p2extinct==true && p3extinct==true && p4extinct==true){ //player 1 wins
+                    status("Blue wins!");
+                    document.getElementById('menu').classList.remove('hidden');
+                }
+                if(p1extinct==true && p3extinct==true && p4extinct==true){ //player 2 wins
+                    status("Red wins!");
+                    document.getElementById('menu').classList.remove('hidden');
+                }
+                if(p1extinct==true && p2extinct==true && p4extinct==true){ //player 3 wins
+                    status("Yellow wins!");
+                    document.getElementById('menu').classList.remove('hidden');
+                }
+                if(p1extinct==true && p2extinct==true && p3extinct==true){ //player 4 wins
+                    status("Green wins!");
+                    document.getElementById('menu').classList.remove('hidden');
+                }
+            }
         }//end evaluation
     }
 }
