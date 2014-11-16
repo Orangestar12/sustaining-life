@@ -11,5 +11,6 @@ for(i=0;i < cells.length;i++)
 {
     cells[i].onclick = takeTurn;
     cells[i].style.background = none;
+    cells[i].setAttribute("data-color", "none")
     cells[i].setAttribute("data-updateto", "stay");
 }

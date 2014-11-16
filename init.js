@@ -22,17 +22,17 @@ status("Setting up behind-the-scenes functions...");
 
 function getCell(x,y){return document.getElementsByClassName("r-"+x+" c-"+y)[0]}
 function evalColor(elem){
-    switch(elem.style.background){
-        case blue:
+    switch(elem.getAttribute("data-color")){
+        case "blue":
             blues++;
             break;
-        case red:
+        case "red":
             reds++;
             break;
-        case yellow:
+        case "yellow":
             yellows++;
             break;
-        case green:
+        case "green":
             greens++;
             break;
     }
@@ -42,16 +42,16 @@ function maxArray(array){
     var largest = Math.max.apply( Math, array );
     switch(largest){
         case blues:
-            return blue;
+            return "blue";
             break;
         case reds:
-            return red;
+            return "red";
             break;
         case yellows:
-            return yellow;
+            return "yellow";
             break;
         case greens:
-            return green;
+            return "green";
             break;
     }
 }; //thanks John Resig http://ejohn.org/blog/fast-javascript-maxmin/
@@ -92,4 +92,23 @@ function getTurn(){
                 status("Green's turn.");
                 break;
         }
+}
+
+function colorCell(elem){
+    switch(elem.getAttribute('data-color')){
+        case "blue":
+            elem.style.background = blue;
+            break;
+        case "red":
+            elem.style.background = red;
+            break;
+        case "yellow":
+            elem.style.background = yellow;
+            break;
+        case "green":
+            elem.style.background = green;
+            break;
+        case "none":
+            elem.style.background = none;
+    }
 }

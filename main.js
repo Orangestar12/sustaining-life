@@ -15,61 +15,63 @@ function startGame(prs){
     for(i=0;i < cells.length;i++)
     {
         cells[i].style.background = none;
+        cells[i].setAttribute("data-color", "none")
         cells[i].setAttribute("data-updateto", "stay");
     }
     
     status("Populating Player 1's cells.");
-    document.getElementsByClassName('r-2 c-2')[0].style.background = blue;
-    document.getElementsByClassName('r-2 c-3')[0].style.background = blue;
-    document.getElementsByClassName('r-3 c-2')[0].style.background = blue;
-    document.getElementsByClassName('r-3 c-3')[0].style.background = blue;
+    document.getElementsByClassName('r-2 c-2')[0].setAttribute("data-color", "blue");
+    document.getElementsByClassName('r-2 c-3')[0].setAttribute("data-color", "blue");
+    document.getElementsByClassName('r-3 c-2')[0].setAttribute("data-color", "blue");
+    document.getElementsByClassName('r-3 c-3')[0].setAttribute("data-color", "blue");
     
     status("Populating Player 2's cells.");
-    document.getElementsByClassName('r-8 c-8')[0].style.background = red;
-    document.getElementsByClassName('r-8 c-9')[0].style.background = red;
-    document.getElementsByClassName('r-9 c-8')[0].style.background = red;
-    document.getElementsByClassName('r-9 c-9')[0].style.background = red;
+    document.getElementsByClassName('r-8 c-8')[0].setAttribute("data-color", "red");
+    document.getElementsByClassName('r-8 c-9')[0].setAttribute("data-color", "red");
+    document.getElementsByClassName('r-9 c-8')[0].setAttribute("data-color", "red");
+    document.getElementsByClassName('r-9 c-9')[0].setAttribute("data-color", "red");
     
     if(players > 2){
         status("Populating Player 3's cells.");
-        document.getElementsByClassName('r-2 c-8')[0].style.background = yellow;
-        document.getElementsByClassName('r-2 c-9')[0].style.background = yellow;
-        document.getElementsByClassName('r-3 c-8')[0].style.background = yellow;
-        document.getElementsByClassName('r-3 c-9')[0].style.background = yellow;
+        document.getElementsByClassName('r-2 c-8')[0].setAttribute("data-color", "yellow");
+        document.getElementsByClassName('r-2 c-9')[0].setAttribute("data-color", "yellow");
+        document.getElementsByClassName('r-3 c-8')[0].setAttribute("data-color", "yellow");
+        document.getElementsByClassName('r-3 c-9')[0].setAttribute("data-color", "yellow");
     }
     else{p3extinct = true;}
     
     if(players > 3){
         status("Populating Player 4's cells.");
-        document.getElementsByClassName('r-8 c-2')[0].style.background = green;
-        document.getElementsByClassName('r-8 c-3')[0].style.background = green;
-        document.getElementsByClassName('r-9 c-2')[0].style.background = green;
-        document.getElementsByClassName('r-9 c-3')[0].style.background = green;
+        document.getElementsByClassName('r-8 c-2')[0].setAttribute("data-color", "green");
+        document.getElementsByClassName('r-8 c-3')[0].setAttribute("data-color", "green");
+        document.getElementsByClassName('r-9 c-2')[0].setAttribute("data-color", "green");
+        document.getElementsByClassName('r-9 c-3')[0].setAttribute("data-color", "green");
     }
     else{p4extinct = true;}
+    for(i=0;i<cells.length;i++){colorCell(cells[i]);}
     turn = 1;
     getTurn();
 }
 
 function takeTurn()
 {
-    if(this.style.background != none)
+    if(this.getAttribute("data-color") != "none")
     {
         status('Please choose an empty cell.');
     }
     else{
         switch(turn){
             case 1:
-                this.style.background = blue;
+                this.setAttribute("data-color", "blue");
                 break;
             case 2:
-                this.style.background = red;
+                this.setAttribute("data-color", "red");
                 break;
             case 3:
-                this.style.background = yellow;
+                this.setAttribute("data-color", "yellow");
                 break;
             case 4:
-                this.style.background = green;
+                this.setAttribute("data-color", "green");
                 break;
         }
         turn++
@@ -86,7 +88,7 @@ function takeTurn()
                     for(xx = -1; xx <= 1; xx++)
                         for(yy = -1; yy <= 1; yy++){
                             if(x+xx != 0 && y+yy != 0 && x+xx != 11 && y+yy != 11 && !(xx == 0 && yy == 0)){
-                                if(getCell(x+xx,y+yy).style.background != none){
+                                if(getCell(x+xx,y+yy).getAttribute("data-color") != "none"){
                                     //console.log('found neighbor at '+xx+', '+yy);
                                     neighbors++;
                                     evalColor(getCell(x+xx,y+yy));
@@ -95,12 +97,12 @@ function takeTurn()
                         }
                     //console.log('totaled up to '+neighbors+' neighbors.');
                     //debugger;
-                    if(getCell(x,y).style.background != none){ //evaluate lives or dies
+                    if(getCell(x,y).getAttribute("data-color") != "none"){ //evaluate lives or dies
                         if(neighbors<2){
-                            getCell(x,y).setAttribute("data-updateto", none); //death by underpop
+                            getCell(x,y).setAttribute("data-updateto", "none"); //death by underpop
                         }
                         else if(neighbors > 3){
-                            getCell(x,y).setAttribute("data-updateto", none); //death by overpop
+                            getCell(x,y).setAttribute("data-updateto", "none"); //death by overpop
                         }
                     }
                     else if(neighbors == 3){ //evaluate reproduction
@@ -113,12 +115,10 @@ function takeTurn()
                     greens = 0;
                 }
             }
-            for(x=1;x<=10;x++){
-                for(y=1;y<=10;y++){
-                    if(getCell(x,y).getAttribute("data-updateto") != "stay") {getCell(x,y).style.background = getCell(x,y).getAttribute("data-updateto");}
-                    getCell(x,y).setAttribute("data-updateto", "stay");
-                    evalColor(getCell(x,y));
-                }
+            for(i=1;i<cells.length;i++){
+                    if(cells[i].getAttribute("data-updateto") != "stay") {cells[i].setAttribute("data-color", cells[i].getAttribute("data-updateto"));}
+                    cells[i].setAttribute("data-updateto", "stay");
+                    evalColor(cells[i]);
             }
             //check for extinction
             if(blues == 0 && p1extinct == false){p1extinct=true;status("Blue has been eliminated!")}
@@ -158,5 +158,8 @@ function takeTurn()
                 }
             }
         }//end evaluation
+        for(i=1;i<cells.length;i++){
+            colorCell(cells[i]);
+        }
     }
 }

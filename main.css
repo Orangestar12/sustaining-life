@@ -57,11 +57,14 @@ a,a:visited{
 #menu > a{
     border-radius:7px;
     font-size:26px;
-    background:lightblue;
+    background:rgb(187, 187, 255);
     padding:5px;
     text-shadow:none;
 }
-#info{text-align:left;}
+#info{
+    text-align:left;
+    margin-bottom:2.5em;
+}
 #playerboxes a{
     width:100px;
     height:100px;
