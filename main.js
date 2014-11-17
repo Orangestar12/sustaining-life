@@ -1,6 +1,7 @@
 status("Getting game stuff ready...");
 
 function startGame(prs){
+    document.getElementByTagName('html')[0].style.paddingBottom = '1em'
     players = prs;
     status('Starting game with ' + players + ' players...');
     document.getElementById('menu').classList.add('hidden');
@@ -143,18 +144,22 @@ function takeTurn()
                 if(p2extinct==true && p3extinct==true && p4extinct==true){ //player 1 wins
                     status("Blue wins!");
                     document.getElementById('menu').classList.remove('hidden');
+                    document.getElementByTagName('html')[0].style.paddingBottom = '10em'
                 }
                 if(p1extinct==true && p3extinct==true && p4extinct==true){ //player 2 wins
                     status("Red wins!");
                     document.getElementById('menu').classList.remove('hidden');
+                    document.getElementByTagName('html')[0].style.paddingBottom = '10em'
                 }
                 if(p1extinct==true && p2extinct==true && p4extinct==true){ //player 3 wins
                     status("Yellow wins!");
                     document.getElementById('menu').classList.remove('hidden');
+                    document.getElementByTagName('html')[0].style.paddingBottom = '10em'
                 }
                 if(p1extinct==true && p2extinct==true && p3extinct==true){ //player 4 wins
                     status("Green wins!");
                     document.getElementById('menu').classList.remove('hidden');
+                    document.getElementByTagName('html')[0].style.paddingBottom = '10em'
                 }
             }
         }//end evaluation
