@@ -1,5 +1,5 @@
 /*main*/
-body{
+html{
     text-align:center;
     font-family:
         "Palatino Linotype",
@@ -18,7 +18,7 @@ body{
         "Century Schoolbook L",
         Georgia,
         serif;
-    padding-bottom:20px;
+    padding-bottom:4.5em;
 }
 a,a:visited{
     color:rgb(255, 100, 100);
@@ -32,7 +32,8 @@ a,a:visited{
     position:absolute;
     width:500px;
     left:50%;
-    margin-left:-256px;
+    margin-left: -250px;
+    box-sizing: border-box;
     top:80px;
     padding:15px;
     -webkit-transform: translate(0,0);
@@ -63,7 +64,6 @@ a,a:visited{
 }
 #info{
     text-align:left;
-    margin-bottom:2.5em;
 }
 #playerboxes a{
     width:100px;
