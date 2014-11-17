@@ -115,7 +115,7 @@ function takeTurn()
                     greens = 0;
                 }
             }
-            for(i=1;i<cells.length;i++){
+            for(i=0;i<cells.length;i++){
                     if(cells[i].getAttribute("data-updateto") != "stay") {cells[i].setAttribute("data-color", cells[i].getAttribute("data-updateto"));}
                     cells[i].setAttribute("data-updateto", "stay");
                     evalColor(cells[i]);
@@ -158,7 +158,7 @@ function takeTurn()
                 }
             }
         }//end evaluation
-        for(i=1;i<cells.length;i++){
+        for(i=0;i<cells.length;i++){
             colorCell(cells[i]);
         }
     }
