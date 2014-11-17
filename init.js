@@ -1,7 +1,7 @@
 status("Initializing colors...");
 
 //colors
-var none = "rgb(238, 238, 238)";
+var none = "rgba(238, 238, 238, 0.5)";
 var blue = "rgb(187, 187, 255)";
 var red = "rgb(255, 187, 187)";
 var green = "rgb(187, 255, 187)";
@@ -81,15 +81,19 @@ function getTurn(){
         switch(turn){
             case 1:
                 status("Blue's turn.");
+                document.getElementsByTagName('html')[0].style.backgroundColor = blue;
                 break;
             case 2:
                 status("Red's turn.");
+                document.getElementsByTagName('html')[0].style.backgroundColor = red;
                 break;
             case 3:
                 status("Yellow's turn.");
+                document.getElementsByTagName('html')[0].style.backgroundColor = yellow;
                 break;
             case 4:
                 status("Green's turn.");
+                document.getElementsByTagName('html')[0].style.backgroundColor = green;
                 break;
         }
 }
@@ -111,4 +115,14 @@ function colorCell(elem){
         case "none":
             elem.style.background = none;
     }
+}
+
+function lowqual(){
+    document.getElementsByTagName('html')[0].className = "lq";
+}
+function midqual(){
+    document.getElementsByTagName('html')[0].className = "lq mq";
+}
+function highqual(){
+    document.getElementsByTagName('html')[0].className = "lq mq hq";
 }
