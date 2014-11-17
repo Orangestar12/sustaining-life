@@ -1,6 +1,6 @@
 status("Getting game stuff ready...");
 
-function startGame(prs){
+function startGame(prs, e){
     document.getElementsByTagName('html')[0].style.paddingBottom = '1em';
     players = prs;
     status('Starting game with ' + players + ' players...');
@@ -52,6 +52,7 @@ function startGame(prs){
     for(i=0;i<cells.length;i++){colorCell(cells[i]);}
     turn = 1;
     getTurn();
+    e.preventDefault();
 }
 
 function takeTurn()

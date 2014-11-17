@@ -2,9 +2,9 @@ status("Tieing down loose ends...");
 
 document.getElementById('howtoplay').onclick = showHTP;
 document.getElementById('howtoplay-close').onclick = hideHTP;
-document.getElementById('playerboxes').getElementsByTagName('a')[0].onclick = function(){startGame(2);};
-document.getElementById('playerboxes').getElementsByTagName('a')[1].onclick = function(){startGame(3);};
-document.getElementById('playerboxes').getElementsByTagName('a')[2].onclick = function(){startGame(4);};
+document.getElementById('playerboxes').getElementsByTagName('a')[0].onclick = function(e){startGame(2,e);};
+document.getElementById('playerboxes').getElementsByTagName('a')[1].onclick = function(e){startGame(3,e);};
+document.getElementById('playerboxes').getElementsByTagName('a')[2].onclick = function(e){startGame(4,e);};
 
 status("Reticulating splines...");
 for(i=0;i < cells.length;i++)
