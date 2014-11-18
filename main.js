@@ -140,7 +140,7 @@ function takeTurn()
             if(extinct(1) && extinct(2) && extinct(3) && extinct(4)){ //tie
                 status("All cells are extinct! It's a tie!");
                 document.getElementById('menu').classList.remove('hidden');
-                document.getElementByTagName('html')[0].style.paddingBottom = '10em';
+                document.getElementsByTagName('html')[0].style.paddingBottom = '10em';
             }
             else{
                 if(extinct(2) && extinct(3) && extinct(4)){ //player 1 wins
