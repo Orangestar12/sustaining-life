@@ -55,7 +55,7 @@ function startGame(prs, e){
     e.preventDefault();
 }
 
-function takeTurn(e)
+function takeTurn()
 {
     if(this.getAttribute("data-color") != "none")
     {
@@ -169,5 +169,4 @@ function takeTurn(e)
             colorCell(cells[i]);
         }
     }
-    e.preventDefault();
 }
