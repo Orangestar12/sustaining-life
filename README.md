@@ -12,9 +12,9 @@ When all players have moved, the first **iteration** begins. For each iteration,
  3. Any live cell with more than three live neighbours dies, as if by overcrowding.
  4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-In addition, Sustaining Life features some additional rules to ensure more competitive play.</p>
+In addition, Sustaining Life features some additional rules to ensure more competitive play.
 
  1. The seed for each player is the corner 4 cells past the first row/column of cells.
- 2. Cells of different color <b>do</b> affect each other.
+ 2. Cells of different color **do** affect each other.
  3. Any cell color that is completely wiped out is considered "extinct" and that player's turn will be skipped.
  4. New cells' color is determined by the number of cells surrounding it. (I.E. if 2 blue and 1 red cell are neighbors to a cell, it will turn blue.)
